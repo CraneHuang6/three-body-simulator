@@ -184,22 +184,15 @@ function Body({ scenarioId, simTime, bodyIdx, dimmedIfDistantFromIdx = null }) {
           <circle cx={px} cy={py} r={r} fill={tint} />
         </>
       )}
-      <text
-        x={px + r + 8} y={py - 2}
-        fill={FG_DIM} fontSize={isPlanet ? 11 : 13} fontFamily={HELVETICA}
-        style={{ fontVariantNumeric: 'tabular-nums', letterSpacing: isPlanet ? '0.12em' : 0 }}
-      >
-        {label}
-      </text>
-      {!isPlanet && (
+      {isPlanet ? (
         <text
-          x={px + r + 8} y={py + 11}
-          fill={FG_FAINT} fontSize={10} fontFamily={HELVETICA}
-          style={{ fontVariantNumeric: 'tabular-nums', letterSpacing: '0.04em' }}
+          x={px + r + 8} y={py - 2}
+          fill={FG_DIM} fontSize={11} fontFamily={HELVETICA}
+          style={{ fontVariantNumeric: 'tabular-nums', letterSpacing: '0.12em' }}
         >
-          {fmtTempC(T)}
+          {label}
         </text>
-      )}
+      ) : null}
     </g>
   );
 }
