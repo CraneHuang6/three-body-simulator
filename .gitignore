@@ -1,1 +1,4 @@
 %SystemDrive%/
+.DS_Store
+preview/*.png
+screenshots/*.png
