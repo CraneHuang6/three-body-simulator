@@ -58,7 +58,7 @@ function HomeMode({ onEnter }) {
     <main className="home-shell">
       <div className="home-copy">
         <span className="eyebrow">THREE BODY DESKTOP SIMULATOR</span>
-        <h1>既能观看三体八大天象，也能进入模拟器手动调参</h1>
+        <h1>三体世界 · 八大天象 · 实时模拟</h1>
         <p>
           观演模式保留完整叙事与时间轴，模拟器模式则允许你实时调整四个天体的初始条件，
           直接观察轨迹、对冲与碰撞如何变化。

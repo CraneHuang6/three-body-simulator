@@ -90,12 +90,16 @@ input {
 }
 
 .home-copy h1 {
-  margin: 18px 0 18px;
-  max-width: 11ch;
+  margin: 18px 0 24px;
+  max-width: 18ch;
   font-family: "Cormorant Garamond", "Songti SC", serif;
   font-size: clamp(52px, 7vw, 88px);
-  line-height: 0.94;
-  letter-spacing: -0.03em;
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+}
+
+.home-copy .eyebrow {
+  margin-bottom: 8px;
 }
 
 .home-copy p {
