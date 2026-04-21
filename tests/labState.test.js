@@ -32,6 +32,7 @@ describe('labState', () => {
     const seeded = applyStoryScenarioToLab('twin_suns');
     const initialMass = seeded.bodies[0].physics.m;
 
+    expect(seeded.meta.name).toBe('双日凌空');
     seeded.bodies[0].physics.m = 9.99;
 
     const again = applyStoryScenarioToLab('twin_suns');

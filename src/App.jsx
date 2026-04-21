@@ -55,10 +55,10 @@ function HomeMode({ onEnter }) {
     <main className="home-shell">
       <div className="home-copy">
         <span className="eyebrow">THREE BODY DESKTOP LAB</span>
-        <h1>三体八大天象动画已上线观演模式，并新增可手动调参的实验室模式</h1>
+        <h1>既能观看三体八大天象，也能进入实验室手动调参</h1>
         <p>
-          现在它不再只是一个静态原型页面。
-          你可以在观演模式里沉浸观看八种天象，也可以切进实验室，实时拖动四个天体的初始条件，观察新的轨迹、对冲与碰撞。
+          观演模式保留完整叙事与时间轴，实验室模式则允许你实时调整四个天体的初始条件，
+          直接观察轨迹、对冲与碰撞如何变化。
         </p>
       </div>
 

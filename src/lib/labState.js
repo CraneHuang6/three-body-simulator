@@ -126,7 +126,7 @@ function applyStoryScenarioToLab(scenarioId) {
     },
     meta: {
       sourceScenarioId: scenario.id,
-      name: `${scenario.name} 实验预设`,
+      name: scenario.name,
     },
   };
 }
