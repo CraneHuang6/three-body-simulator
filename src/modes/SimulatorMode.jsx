@@ -419,6 +419,9 @@ export function SimulatorMode({ onBack, onSwitchMode, volume, onVolumeChange }) 
   const [surfaceSize, setSurfaceSize] = React.useState({ width: WIDTH, height: HEIGHT });
   const [autoResetCounter, setAutoResetCounter] = React.useState(0);
   const hasAutoResetRef = React.useRef(false);
+  const [showResetOverlay, setShowResetOverlay] = React.useState(false);
+  const [isResetOverlayFading, setIsResetOverlayFading] = React.useState(false);
+  const resetOverlayTimerRef = React.useRef(null);
 
   const physicsKey = React.useMemo(
     () => JSON.stringify(simulatorState.bodies.map((body) => body.physics)),
@@ -449,10 +452,27 @@ export function SimulatorMode({ onBack, onSwitchMode, volume, onVolumeChange }) 
       setPlaying(false);
       setAutoResetCounter((c) => c + 1);
       setSimTime(0);
+      setShowResetOverlay(true);
+      setIsResetOverlayFading(false);
     } else if (!allDestroyed) {
       hasAutoResetRef.current = false;
     }
   }, [allDestroyed, playing, setSimTime]);
+
+  React.useEffect(() => {
+    if (showResetOverlay) {
+      const fadeTimer = setTimeout(() => setIsResetOverlayFading(true), 1500);
+      const hideTimer = setTimeout(() => {
+        setShowResetOverlay(false);
+        setIsResetOverlayFading(false);
+        setPlaying(true);
+      }, 2300);
+      return () => {
+        clearTimeout(fadeTimer);
+        clearTimeout(hideTimer);
+      };
+    }
+  }, [showResetOverlay]);
 
   const colors = simulatorState.bodies.map((body) => body.visual.color);
   const planetTemp = React.useMemo(() => equilibriumTempK(snapshot), [snapshot]);
@@ -650,6 +670,12 @@ export function SimulatorMode({ onBack, onSwitchMode, volume, onVolumeChange }) 
                 <strong>{cache.collisions.length}</strong>
                 <p>当前这一组初始条件下已计算到的恒星碰撞事件数。</p>
               </div>
+
+              {showResetOverlay && (
+                <div className={`simulator-reset-overlay${isResetOverlayFading ? ' is-fading' : ''}`}>
+                  <p>漫长的时间后，生命和文明将重新启动，再次开启在三体世界中命运莫测地进化……</p>
+                </div>
+              )}
               </div>
             </div>
           </div>
