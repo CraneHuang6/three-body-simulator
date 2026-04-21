@@ -1,14 +1,19 @@
 import React from 'react';
 
-export function LoopingBgm({ enabled }) {
+export function LoopingBgm({ enabled, volume }) {
   const audioRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return undefined;
+    audio.volume = typeof volume === 'number' ? volume : 0.55;
+  }, [volume]);
 
   React.useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return undefined;
 
     audio.loop = true;
-    audio.volume = 0.55;
 
     if (enabled) {
       audio.play().catch(() => {});

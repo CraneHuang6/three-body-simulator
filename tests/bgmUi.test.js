@@ -8,4 +8,10 @@ describe('bgm wiring', () => {
     expect(appSource).toContain('LoopingBgm');
     expect(appSource).toContain('mode === \'story\' || mode === \'simulator\'');
   });
+
+  it('LoopingBgm accepts volume prop', () => {
+    const bgmSource = fs.readFileSync(path.resolve(process.cwd(), 'src/components/LoopingBgm.jsx'), 'utf8');
+    expect(bgmSource).toContain('volume');
+    expect(bgmSource).toContain('audio.volume');
+  });
 });
