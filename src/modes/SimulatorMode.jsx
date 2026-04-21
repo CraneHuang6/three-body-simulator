@@ -421,7 +421,6 @@ export function SimulatorMode({ onBack, onSwitchMode, volume, onVolumeChange }) 
   const hasAutoResetRef = React.useRef(false);
   const [showResetOverlay, setShowResetOverlay] = React.useState(false);
   const [isResetOverlayFading, setIsResetOverlayFading] = React.useState(false);
-  const resetOverlayTimerRef = React.useRef(null);
 
   const physicsKey = React.useMemo(
     () => JSON.stringify(simulatorState.bodies.map((body) => body.physics)),
@@ -670,13 +669,13 @@ export function SimulatorMode({ onBack, onSwitchMode, volume, onVolumeChange }) 
                 <strong>{cache.collisions.length}</strong>
                 <p>当前这一组初始条件下已计算到的恒星碰撞事件数。</p>
               </div>
+              </div>
 
               {showResetOverlay && (
                 <div className={`simulator-reset-overlay${isResetOverlayFading ? ' is-fading' : ''}`}>
                   <p>漫长的时间后，生命和文明将重新启动，再次开启在三体世界中命运莫测地进化……</p>
                 </div>
               )}
-              </div>
             </div>
           </div>
 
