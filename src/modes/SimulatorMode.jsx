@@ -8,11 +8,11 @@ import {
   starRadius,
 } from '../lib/simulation.jsx';
 import {
-  applyStoryScenarioToLab,
-  createDefaultLabState,
-  randomizeLabState,
+  applyStoryScenarioToSimulatorState,
+  createDefaultSimulatorState,
+  randomizeSimulatorState,
   STORY_PRESET_OPTIONS,
-} from '../lib/labState.js';
+} from '../lib/simulatorState.js';
 import { FullscreenToggleButton } from '../components/FullscreenToggleButton.jsx';
 
 const WIDTH = 1280;
@@ -261,8 +261,8 @@ function BodyGlyph({ body, snap, index }) {
 
 function Slider({ label, value, min, max, step, onChange, renderValue = (input) => input }) {
   return (
-    <label className="lab-slider">
-      <div className="lab-slider__meta">
+    <label className="simulator-slider">
+      <div className="simulator-slider__meta">
         <span>{label}</span>
         <strong>{renderValue(value)}</strong>
       </div>
@@ -380,7 +380,7 @@ function PresetQuickSwitch({ selectedPreset, onSelect }) {
       <div className="preset-panel__header">
         <span className="eyebrow">STORY PRESETS</span>
         <h3>八大天象默认参数</h3>
-        <p>直接切到任意一种天象的默认初始条件，方便在实验室里快速比较。</p>
+        <p>直接切到任意一种天象的默认初始条件，方便在模拟器里快速比较。</p>
       </div>
       <div className="preset-grid">
         <button
@@ -388,9 +388,9 @@ function PresetQuickSwitch({ selectedPreset, onSelect }) {
           className={selectedPreset === 'default' ? 'preset-card is-active' : 'preset-card'}
           onClick={() => onSelect('default')}
         >
-          <span className="preset-card__eyebrow">LAB DEFAULT</span>
-          <strong>默认实验</strong>
-          <span>四体自由实验的基础起点。</span>
+          <span className="preset-card__eyebrow">SIMULATOR DEFAULT</span>
+          <strong>默认模拟</strong>
+          <span>四体自由模拟的基础起点。</span>
         </button>
 
         {STORY_PRESET_OPTIONS.map((preset) => (
@@ -410,35 +410,35 @@ function PresetQuickSwitch({ selectedPreset, onSelect }) {
   );
 }
 
-export function LabMode({ onBack, onSwitchMode }) {
+export function SimulatorMode({ onBack, onSwitchMode }) {
   const canvasFullscreenRef = React.useRef(null);
-  const [labState, setLabState] = React.useState(() => createDefaultLabState());
+  const [simulatorState, setSimulatorState] = React.useState(() => createDefaultSimulatorState());
   const [playing, setPlaying] = React.useState(true);
   const [selectedPreset, setSelectedPreset] = React.useState('default');
   const [surfaceSize, setSurfaceSize] = React.useState({ width: WIDTH, height: HEIGHT });
 
   const physicsKey = React.useMemo(
-    () => JSON.stringify(labState.bodies.map((body) => body.physics)),
-    [labState.bodies],
+    () => JSON.stringify(simulatorState.bodies.map((body) => body.physics)),
+    [simulatorState.bodies],
   );
 
   const cache = React.useMemo(() => createSimulationCache({
-    bodies: labState.bodies.map((body) => ({
+    bodies: simulatorState.bodies.map((body) => ({
       ...body.physics,
     })),
-    duration: labState.simConfig.duration,
-    simSpeed: labState.simConfig.simSpeed,
-    noStarCollisions: labState.simConfig.noStarCollisions,
-  }), [physicsKey, labState.simConfig.duration, labState.simConfig.noStarCollisions, labState.simConfig.simSpeed]);
+    duration: simulatorState.simConfig.duration,
+    simSpeed: simulatorState.simConfig.simSpeed,
+    noStarCollisions: simulatorState.simConfig.noStarCollisions,
+  }), [physicsKey, simulatorState.simConfig.duration, simulatorState.simConfig.noStarCollisions, simulatorState.simConfig.simSpeed]);
 
   const [simTime, setSimTime] = useAnimationTime({
-    duration: labState.simConfig.duration,
+    duration: simulatorState.simConfig.duration,
     playing,
     resetKey: physicsKey,
   });
 
   const snapshot = sampleSimulationCache(cache, simTime);
-  const colors = labState.bodies.map((body) => body.visual.color);
+  const colors = simulatorState.bodies.map((body) => body.visual.color);
   const planetTemp = React.useMemo(() => equilibriumTempK(snapshot), [snapshot]);
 
   const totalFlux = React.useMemo(() => {
@@ -453,7 +453,7 @@ export function LabMode({ onBack, onSwitchMode }) {
   }, [snapshot]);
 
   const updateBody = React.useCallback((bodyIndex, section, key, value) => {
-    setLabState((prev) => ({
+    setSimulatorState((prev) => ({
       ...prev,
       bodies: prev.bodies.map((body, index) => {
         if (index !== bodyIndex) return body;
@@ -471,15 +471,15 @@ export function LabMode({ onBack, onSwitchMode }) {
   const applyPreset = React.useCallback((presetId) => {
     setSelectedPreset(presetId);
     if (presetId === 'default') {
-      setLabState(createDefaultLabState());
+      setSimulatorState(createDefaultSimulatorState());
       return;
     }
-    setLabState(applyStoryScenarioToLab(presetId));
+    setSimulatorState(applyStoryScenarioToSimulatorState(presetId));
   }, []);
 
   const resetParams = React.useCallback(() => {
     setSelectedPreset('default');
-    setLabState(createDefaultLabState());
+    setSimulatorState(createDefaultSimulatorState());
     setSimTime(0);
   }, [setSimTime]);
 
@@ -517,10 +517,10 @@ export function LabMode({ onBack, onSwitchMode }) {
   }, []);
 
   return (
-    <div className="workspace workspace--lab">
+    <div className="workspace workspace--simulator">
       <header className="app-toolbar">
         <div>
-          <span className="eyebrow">自由实验室</span>
+          <span className="eyebrow">自由模拟器</span>
           <h2>四个天体，实时操控</h2>
         </div>
         <div className="toolbar-actions">
@@ -530,16 +530,16 @@ export function LabMode({ onBack, onSwitchMode }) {
         </div>
       </header>
 
-      <div className="lab-layout">
-        <section className="lab-stage-shell">
-          <div className="lab-stage-frame">
-            <div className="lab-stage-head">
+      <div className="simulator-layout">
+        <section className="simulator-stage-shell">
+          <div className="simulator-stage-frame">
+            <div className="simulator-stage-head">
               <div>
-                <span className="eyebrow">LAB FEED</span>
-                <h3>{labState.meta.name}</h3>
+                <span className="eyebrow">SIMULATOR FEED</span>
+                <h3>{simulatorState.meta.name}</h3>
               </div>
-              <div className="lab-stage-side">
-                <div className="lab-stage-head__stats">
+              <div className="simulator-stage-side">
+                <div className="simulator-stage-head__stats">
                   <div>
                     <span>时间</span>
                     <strong>{simTime.toFixed(2)}s</strong>
@@ -554,40 +554,40 @@ export function LabMode({ onBack, onSwitchMode }) {
                 </div>
               </div>
 
-              <div className="lab-stage-actions">
+              <div className="simulator-stage-actions">
                 <button className="primary-button" onClick={() => setPlaying((prev) => !prev)}>
                   {playing ? '暂停' : '继续'}
                 </button>
                 <button className="ghost-button" onClick={resetParams}>重置参数</button>
                 <button className="ghost-button" onClick={() => setSimTime(0)}>重置时间</button>
-                <button className="ghost-button" onClick={() => setLabState(randomizeLabState(labState, 42 + Math.round(simTime * 100)))}>
+                <button className="ghost-button" onClick={() => setSimulatorState(randomizeSimulatorState(simulatorState, 42 + Math.round(simTime * 100)))}>
                   随机生成
                 </button>
                 </div>
               </div>
             </div>
 
-            <div className="lab-stage-canvas" ref={canvasFullscreenRef}>
+            <div className="simulator-stage-canvas" ref={canvasFullscreenRef}>
               <div
-                className="lab-stage-surface"
+                className="simulator-stage-surface"
                 style={{ width: `${surfaceSize.width}px`, height: `${surfaceSize.height}px` }}
               >
               <FullscreenToggleButton targetRef={canvasFullscreenRef} className="frame-fullscreen-button" />
-              <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="lab-svg" role="img" aria-label="四体实验可视化">
+              <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="simulator-svg" role="img" aria-label="四体模拟可视化">
                 <defs>
-                  <radialGradient id="lab-nebula-a" cx="30%" cy="30%">
+                  <radialGradient id="simulator-nebula-a" cx="30%" cy="30%">
                     <stop offset="0%" stopColor="rgba(56, 93, 255, 0.56)" />
                     <stop offset="100%" stopColor="rgba(56, 93, 255, 0)" />
                   </radialGradient>
-                  <radialGradient id="lab-nebula-b" cx="70%" cy="60%">
+                  <radialGradient id="simulator-nebula-b" cx="70%" cy="60%">
                     <stop offset="0%" stopColor="rgba(255, 125, 94, 0.42)" />
                     <stop offset="100%" stopColor="rgba(255, 125, 94, 0)" />
                   </radialGradient>
                 </defs>
 
                 <rect width={WIDTH} height={HEIGHT} fill="#06070c" />
-                <rect width={WIDTH} height={HEIGHT} fill="url(#lab-nebula-a)" opacity={qualityMap[labState.qualityProfile].nebulaOpacity} />
-                <rect width={WIDTH} height={HEIGHT} fill="url(#lab-nebula-b)" opacity={qualityMap[labState.qualityProfile].nebulaOpacity * 0.75} />
+                <rect width={WIDTH} height={HEIGHT} fill="url(#simulator-nebula-a)" opacity={qualityMap[simulatorState.qualityProfile].nebulaOpacity} />
+                <rect width={WIDTH} height={HEIGHT} fill="url(#simulator-nebula-b)" opacity={qualityMap[simulatorState.qualityProfile].nebulaOpacity * 0.75} />
                 {[...Array(120)].map((_, index) => (
                   <circle
                     key={index}
@@ -599,14 +599,14 @@ export function LabMode({ onBack, onSwitchMode }) {
                   />
                 ))}
 
-                {labState.bodies.map((body, index) => (
+                {simulatorState.bodies.map((body, index) => (
                   <BodyTrail
                     key={`${body.id}-trail`}
                     cache={cache}
                     simTime={simTime}
                     bodyIndex={index}
                     color={body.visual.color}
-                    qualityProfile={labState.qualityProfile}
+                    qualityProfile={simulatorState.qualityProfile}
                     trailScale={body.visual.trail}
                   />
                 ))}
@@ -614,11 +614,11 @@ export function LabMode({ onBack, onSwitchMode }) {
                 <CollisionEffects
                   collisions={cache.collisions}
                   simTime={simTime}
-                  qualityProfile={labState.qualityProfile}
+                  qualityProfile={simulatorState.qualityProfile}
                   colors={colors}
                 />
 
-                {labState.bodies.map((body, index) => (
+                {simulatorState.bodies.map((body, index) => (
                   <BodyGlyph
                     key={body.id}
                     body={body}
@@ -628,7 +628,7 @@ export function LabMode({ onBack, onSwitchMode }) {
                 ))}
               </svg>
 
-              <div className="lab-overlay-card">
+              <div className="simulator-overlay-card">
                 <span className="eyebrow">碰撞记录</span>
                 <strong>{cache.collisions.length}</strong>
                 <p>当前这一组初始条件下已计算到的恒星碰撞事件数。</p>
@@ -639,7 +639,7 @@ export function LabMode({ onBack, onSwitchMode }) {
 
         </section>
 
-        <aside className="lab-control-panel">
+        <aside className="simulator-control-panel">
           <PresetQuickSwitch selectedPreset={selectedPreset} onSelect={applyPreset} />
 
           <div className="panel-copy">
@@ -651,7 +651,7 @@ export function LabMode({ onBack, onSwitchMode }) {
             </p>
           </div>
 
-          {labState.bodies.map((body, index) => (
+          {simulatorState.bodies.map((body, index) => (
             <BodyControlCard
               key={body.id}
               body={body}

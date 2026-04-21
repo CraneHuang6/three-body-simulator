@@ -96,7 +96,7 @@ function withConstraints(body) {
   };
 }
 
-function createDefaultLabState() {
+function createDefaultSimulatorState() {
   return {
     bodies: BODY_PRESETS.map(withConstraints),
     qualityProfile: 'balanced',
@@ -107,14 +107,14 @@ function createDefaultLabState() {
     },
     meta: {
       sourceScenarioId: null,
-      name: '默认实验',
+      name: '默认模拟',
     },
   };
 }
 
-function applyStoryScenarioToLab(scenarioId) {
+function applyStoryScenarioToSimulatorState(scenarioId) {
   const scenario = SCENARIOS.find((item) => item.id === scenarioId);
-  if (!scenario) return createDefaultLabState();
+  if (!scenario) return createDefaultSimulatorState();
 
   return {
     bodies: scenario.bodies.slice(0, 4).map(mapScenarioBody),
@@ -131,7 +131,7 @@ function applyStoryScenarioToLab(scenarioId) {
   };
 }
 
-function randomizeLabState(state, seed = Date.now()) {
+function randomizeSimulatorState(state, seed = Date.now()) {
   const rand = mulberry32(seed);
   return {
     ...state,
@@ -172,7 +172,7 @@ export {
   GLOW_MAX,
   GLOW_MIN,
   STORY_PRESET_OPTIONS,
-  applyStoryScenarioToLab,
-  createDefaultLabState,
-  randomizeLabState,
+  applyStoryScenarioToSimulatorState,
+  createDefaultSimulatorState,
+  randomizeSimulatorState,
 };

@@ -1,8 +1,8 @@
 {
-  "name": "three-body-desktop-lab",
+  "name": "three-body-simulator",
   "version": "0.1.0",
   "private": true,
-  "description": "Three Body desktop lab with cinematic story mode and interactive four-body controls.",
+  "description": "Three Body desktop simulator with cinematic story mode and interactive four-body controls.",
   "author": "Codex + crane",
   "type": "module",
   "main": "electron/main.js",
@@ -20,8 +20,8 @@
     "package:release": "bash scripts/package-release.sh"
   },
   "build": {
-    "appId": "com.crane.threebody",
-    "productName": "ThreeBodyLab",
+    "appId": "com.crane.threebodysimulator",
+    "productName": "ThreeBodySimulator",
     "files": [
       "dist/**/*",
       "electron/**/*",
@@ -33,14 +33,14 @@
     },
     "mac": {
       "icon": "build/app-icon.icns",
-      "artifactName": "三体实验室-${version}-${arch}-mac.${ext}",
+      "artifactName": "三体模拟器-${version}-${arch}-mac.${ext}",
       "target": [
         "zip"
       ]
     },
     "win": {
       "icon": "build/app-icon.ico",
-      "artifactName": "三体实验室-${version}-${arch}.${ext}",
+      "artifactName": "三体模拟器-${version}-${arch}.${ext}",
       "target": [
         "portable"
       ]

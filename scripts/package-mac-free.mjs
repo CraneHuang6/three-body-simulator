@@ -15,7 +15,7 @@ function fail(message) {
 }
 
 function resolveArch(rawArch) {
-  const arch = rawArch ?? process.env.THREEBODY_MAC_ARCH ?? process.arch;
+  const arch = rawArch ?? process.env.THREE_BODY_SIMULATOR_MAC_ARCH ?? process.arch;
   if (!VALID_ARCHS.has(arch)) {
     fail(`Unsupported macOS arch "${arch}". Use arm64 or x64.`);
   }
@@ -23,16 +23,16 @@ function resolveArch(rawArch) {
 }
 
 function resolveProjectDir() {
-  return path.resolve(process.env.THREEBODY_PROJECT_DIR ?? path.join(__dirname, '..'));
+  return path.resolve(process.env.THREE_BODY_SIMULATOR_PROJECT_DIR ?? path.join(__dirname, '..'));
 }
 
 function resolveReleaseRoot(projectDir) {
-  return path.resolve(process.env.THREEBODY_RELEASE_DIR ?? path.join(projectDir, 'release'));
+  return path.resolve(process.env.THREE_BODY_SIMULATOR_RELEASE_DIR ?? path.join(projectDir, 'release'));
 }
 
 function resolveElectronDistArg() {
-  if (!process.env.THREEBODY_ELECTRON_DIST_DIR) return null;
-  return `-c.electronDist=${path.resolve(process.env.THREEBODY_ELECTRON_DIST_DIR)}`;
+  if (!process.env.THREE_BODY_SIMULATOR_ELECTRON_DIST_DIR) return null;
+  return `-c.electronDist=${path.resolve(process.env.THREE_BODY_SIMULATOR_ELECTRON_DIST_DIR)}`;
 }
 
 function builderCliPath(projectDir) {
@@ -105,7 +105,7 @@ function main() {
   const releaseRoot = resolveReleaseRoot(projectDir);
   const electronDistArg = resolveElectronDistArg();
   const pkg = loadPackageJson(projectDir);
-  const productName = pkg.build?.productName ?? 'ThreeBodyLab';
+  const productName = pkg.build?.productName ?? 'ThreeBodySimulator';
   const version = pkg.version;
   const outputDir = path.join(releaseRoot, `mac-${arch}`);
   const zipPath = path.join(releaseRoot, `${productName}-${version}-mac-${arch}.zip`);

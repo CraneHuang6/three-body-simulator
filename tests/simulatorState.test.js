@@ -1,12 +1,12 @@
 import {
-  createDefaultLabState,
-  applyStoryScenarioToLab,
-  randomizeLabState,
-} from '../src/lib/labState.js';
+  createDefaultSimulatorState,
+  applyStoryScenarioToSimulatorState,
+  randomizeSimulatorState,
+} from '../src/lib/simulatorState.js';
 
-describe('labState', () => {
-  it('creates a four-body editable lab state with physics and visual controls', () => {
-    const state = createDefaultLabState();
+describe('simulatorState', () => {
+  it('creates a four-body editable simulator state with physics and visual controls', () => {
+    const state = createDefaultSimulatorState();
 
     expect(state.bodies).toHaveLength(4);
     expect(state.bodies[0]).toMatchObject({
@@ -28,21 +28,21 @@ describe('labState', () => {
     expect(state.bodies[3].visual.color).toBe('#58f2ff');
   });
 
-  it('can seed the lab state from a story scenario without sharing references', () => {
-    const seeded = applyStoryScenarioToLab('twin_suns');
+  it('can seed the simulator state from a story scenario without sharing references', () => {
+    const seeded = applyStoryScenarioToSimulatorState('twin_suns');
     const initialMass = seeded.bodies[0].physics.m;
 
     expect(seeded.meta.name).toBe('双日凌空');
     seeded.bodies[0].physics.m = 9.99;
 
-    const again = applyStoryScenarioToLab('twin_suns');
+    const again = applyStoryScenarioToSimulatorState('twin_suns');
     expect(again.bodies[0].physics.m).toBe(initialMass);
     expect(again.meta.sourceScenarioId).toBe('twin_suns');
   });
 
   it('randomizes only editable ranges and keeps quality/profile metadata intact', () => {
-    const state = createDefaultLabState();
-    const random = randomizeLabState(state, 42);
+    const state = createDefaultSimulatorState();
+    const random = randomizeSimulatorState(state, 42);
 
     expect(random.qualityProfile).toBe(state.qualityProfile);
     expect(random.bodies).toHaveLength(4);
@@ -52,5 +52,11 @@ describe('labState', () => {
       expect(body.physics.x).toBeLessThanOrEqual(3.5);
       expect(body.visual.glow).toBe(0);
     }
+  });
+
+  it('uses simulator naming for the default preset metadata', () => {
+    const state = createDefaultSimulatorState();
+
+    expect(state.meta.name).toBe('默认模拟');
   });
 });

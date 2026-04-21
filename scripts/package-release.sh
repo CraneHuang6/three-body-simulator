@@ -2,8 +2,8 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-TMP_BUILD_DIR="${TMP_BUILD_DIR:-/tmp/threebody-build}"
-NPM_CACHE_DIR="${NPM_CACHE_DIR:-/tmp/threebody-npm-cache}"
+TMP_BUILD_DIR="${TMP_BUILD_DIR:-/tmp/three-body-simulator-build}"
+NPM_CACHE_DIR="${NPM_CACHE_DIR:-/tmp/three-body-simulator-npm-cache}"
 ELECTRON_MAC_DIR="${ELECTRON_MAC_DIR:-/tmp/electron-dist-mac}"
 ELECTRON_WIN_DIR="${ELECTRON_WIN_DIR:-/tmp/electron-dist-win}"
 RELEASE_OUT_DIR="${RELEASE_OUT_DIR:-$ROOT_DIR/release}"
@@ -93,10 +93,10 @@ package_mac_free_zip() {
   print_step "build macOS zip for free distribution"
   (
     cd "$TMP_BUILD_DIR"
-    THREEBODY_PROJECT_DIR="$TMP_BUILD_DIR" \
-    THREEBODY_RELEASE_DIR="$TMP_BUILD_DIR/release-mac-zip" \
-    THREEBODY_ELECTRON_DIST_DIR="$ELECTRON_MAC_DIR" \
-    THREEBODY_MAC_ARCH=arm64 \
+    THREE_BODY_SIMULATOR_PROJECT_DIR="$TMP_BUILD_DIR" \
+    THREE_BODY_SIMULATOR_RELEASE_DIR="$TMP_BUILD_DIR/release-mac-zip" \
+    THREE_BODY_SIMULATOR_ELECTRON_DIST_DIR="$ELECTRON_MAC_DIR" \
+    THREE_BODY_SIMULATOR_MAC_ARCH=arm64 \
       node scripts/package-mac-free.mjs
   )
 }

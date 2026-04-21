@@ -1,4 +1,4 @@
-# 三体实验室
+# 三体模拟器
 
 一个以《三体》为灵感的 Mac 桌面互动作品。
 
@@ -8,11 +8,11 @@
 
 请前往发布页下载最新版本：
 
-[下载最新版本](https://github.com/CraneHuang6/three-body-lab/releases/latest)
+[下载最新版本](https://github.com/CraneHuang6/three-body-simulator/releases/latest)
 
 普通用户请优先下载：
 
-- `ThreeBodyLab-0.1.0-mac-arm64.zip`
+- `ThreeBodySimulator-0.1.0-mac-arm64.zip`
 
 ## 适用系统
 
@@ -30,10 +30,10 @@ Windows 试用版当前只提供：
 ## 安装步骤
 
 1. 下载 `zip` 文件
-2. 双击解压，得到 `ThreeBodyLab.app`
+2. 双击解压，得到 `ThreeBodySimulator.app`
 3. 打开 Finder 中的“应用程序”文件夹
-4. 把解压出来的 `ThreeBodyLab.app` 拖进“应用程序”
-5. 以后请尽量从“应用程序”里打开 `ThreeBodyLab`，不要直接在下载目录里运行
+4. 把解压出来的 `ThreeBodySimulator.app` 拖进“应用程序”
+5. 以后请尽量从“应用程序”里打开 `ThreeBodySimulator`，不要直接在下载目录里运行
 
 ## 第一次打不开怎么办
 
@@ -41,7 +41,7 @@ Windows 试用版当前只提供：
 
 最简单的做法是：
 
-1. 在“应用程序”里找到 `ThreeBodyLab`
+1. 在“应用程序”里找到 `ThreeBodySimulator`
 2. 按住 `control` 键点它
 3. 选择“打开”
 4. 再点一次“打开”
@@ -52,9 +52,9 @@ Windows 试用版当前只提供：
 
 1. “系统设置”
 2. “隐私与安全性”
-3. 下滑到页面底部，找到关于 `ThreeBodyLab` 的安全提示
+3. 下滑到页面底部，找到关于 `ThreeBodySimulator` 的安全提示
 4. 点击“仍要打开”
-5. 回到“应用程序”，再次打开 `ThreeBodyLab`
+5. 回到“应用程序”，再次打开 `ThreeBodySimulator`
 
 如果系统再次弹出确认框，再点一次“打开”即可。
 
@@ -63,24 +63,24 @@ Windows 试用版当前只提供：
 应用首页有两个入口：
 
 - `观演模式`：直接观看八大天象演示
-- `实验室模式`：手动调整 4 个天体参数，观察新的轨迹和碰撞效果
+- `模拟器模式`：手动调整 4 个天体参数，观察新的轨迹和碰撞效果
 
 第一次体验建议顺序：
 
 1. 先看 `观演模式`
-2. 再进入 `实验室模式`
+2. 再进入 `模拟器模式`
 
 这样更容易理解这个作品原本的演示效果，以及你可以自己动手修改的部分。
 
 ## 一句话说明
 
-这是一个可以在 Mac 上直接体验的《三体》风格互动实验室：既能看，也能自己动手试。
+这是一个可以在 Mac 上直接体验的《三体》风格互动模拟器：既能看，也能自己动手试。
 
 ## Windows 试用
 
 如果你要在 Windows 电脑上试用，请使用：
 
-- `release/win-portable/x64/三体实验室-0.1.0-x64.exe`
+- `release/win-portable/x64/三体模拟器-0.1.0-x64.exe`
 
 首次打开如果被 SmartScreen 拦截，按下面做：
 

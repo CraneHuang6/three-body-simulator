@@ -331,12 +331,19 @@ function Stage({
   loop = true,
   autoplay = true,
   persistKey = 'animstage',
+  persistLegacyKeys = [],
   children,
 }) {
   const [time, setTime] = React.useState(() => {
     try {
-      const v = parseFloat(localStorage.getItem(persistKey + ':t') || '0');
-      return isFinite(v) ? clamp(v, 0, duration) : 0;
+      const storageKeys = [persistKey, ...persistLegacyKeys];
+      for (const key of storageKeys) {
+        const rawValue = localStorage.getItem(`${key}:t`);
+        if (rawValue == null) continue;
+        const value = parseFloat(rawValue || '0');
+        if (isFinite(value)) return clamp(value, 0, duration);
+      }
+      return 0;
     } catch { return 0; }
   });
   const [playing, setPlaying] = React.useState(autoplay);

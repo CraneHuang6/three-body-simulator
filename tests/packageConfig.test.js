@@ -10,6 +10,9 @@ describe('package build config', () => {
   it('uses an ASCII-safe productName for the packaged executable', () => {
     const pkg = loadPackageJson();
 
+    expect(pkg.name).toBe('three-body-simulator');
+    expect(pkg.build.appId).toBe('com.crane.threebodysimulator');
+    expect(pkg.build.productName).toBe('ThreeBodySimulator');
     expect(pkg.build.productName).toMatch(/^[A-Za-z0-9._-]+$/);
   });
 
@@ -39,6 +42,8 @@ describe('package build config', () => {
 
     expect(pkg.build.mac.icon).toBe('build/app-icon.icns');
     expect(pkg.build.win.icon).toBe('build/app-icon.ico');
+    expect(pkg.build.mac.artifactName).toContain('三体模拟器');
+    expect(pkg.build.win.artifactName).toContain('三体模拟器');
   });
 
   it('defines x64-only Windows packaging scripts', () => {

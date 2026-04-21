@@ -14,5 +14,10 @@ describe('free macOS packaging script', () => {
     expect(script).toContain("'--sign', '-'");
     expect(script).toContain("'ditto'");
     expect(script).toContain('--keepParent');
+    expect(script).toContain('THREE_BODY_SIMULATOR_PROJECT_DIR');
+    expect(script).toContain('THREE_BODY_SIMULATOR_RELEASE_DIR');
+    expect(script).toContain('THREE_BODY_SIMULATOR_ELECTRON_DIST_DIR');
+    expect(script).toContain('THREE_BODY_SIMULATOR_MAC_ARCH');
+    expect(script).toContain('ThreeBodySimulator');
   });
 });

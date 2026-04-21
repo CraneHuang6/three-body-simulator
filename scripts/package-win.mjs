@@ -19,18 +19,18 @@ function resolveArchInput(rawArch) {
 }
 
 function resolveProjectDir() {
-  return path.resolve(process.env.THREEBODY_PROJECT_DIR ?? path.join(__dirname, '..'));
+  return path.resolve(process.env.THREE_BODY_SIMULATOR_PROJECT_DIR ?? path.join(__dirname, '..'));
 }
 
 function resolveReleaseRoot(projectDir) {
   return path.resolve(
-    process.env.THREEBODY_RELEASE_DIR ?? path.join(projectDir, 'release', 'win-portable'),
+    process.env.THREE_BODY_SIMULATOR_RELEASE_DIR ?? path.join(projectDir, 'release', 'win-portable'),
   );
 }
 
 function resolveElectronDistArg() {
-  if (!process.env.THREEBODY_ELECTRON_DIST_DIR) return null;
-  return `-c.electronDist=${path.resolve(process.env.THREEBODY_ELECTRON_DIST_DIR)}`;
+  if (!process.env.THREE_BODY_SIMULATOR_ELECTRON_DIST_DIR) return null;
+  return `-c.electronDist=${path.resolve(process.env.THREE_BODY_SIMULATOR_ELECTRON_DIST_DIR)}`;
 }
 
 function builderCliPath(projectDir) {
