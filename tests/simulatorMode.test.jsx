@@ -1,4 +1,7 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import React from 'react';
+import { describe, it, expect } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { SimulatorMode } from '../src/modes/SimulatorMode.jsx';
 import { SCENARIOS } from '../src/lib/simulation.jsx';
@@ -6,7 +9,7 @@ import { SCENARIOS } from '../src/lib/simulation.jsx';
 describe('SimulatorMode preset UI', () => {
   it('renders eight story presets as visible quick-switch controls', () => {
     const html = renderToStaticMarkup(
-      <SimulatorMode onBack={() => {}} onSwitchMode={() => {}} />,
+      <SimulatorMode onBack={() => {}} onSwitchMode={() => {}} volume={0.55} onVolumeChange={() => {}} />,
     );
 
     expect(html).toContain('八大天象默认参数');
@@ -23,5 +26,10 @@ describe('SimulatorMode preset UI', () => {
     for (const scenario of SCENARIOS) {
       expect(html).toContain(scenario.name);
     }
+  });
+
+  it('includes auto-reset overlay class in component source', () => {
+    const source = fs.readFileSync(path.resolve(process.cwd(), 'src/modes/SimulatorMode.jsx'), 'utf8');
+    expect(source).toContain('simulator-reset-overlay');
   });
 });
